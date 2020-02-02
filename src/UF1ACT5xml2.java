@@ -171,97 +171,92 @@ public class UF1ACT5xml2 {
 
 							Element element0 = document.getDocumentElement();
 
-							Element element1 = document.createElement("alumne");
-							element1.setAttribute("id", String.valueOf(contadorId));
+							Element element1 = (Element) element0.getFirstChild();
 
-							element0.appendChild(element1);
-
-							Element nom = document.createElement("nom");
-							System.out.println("Introduce el nombre");
-							nom.appendChild(document.createTextNode(teclado.nextLine()));
-							element1.appendChild(nom);
-
-							Element cognom1 = document.createElement("cognom1");
-							System.out.println("Introduce el cognom1");
-							cognom1.appendChild(document.createTextNode(teclado.nextLine()));
-							element1.appendChild(cognom1);
-
-							Element cognom2 = document.createElement("cognom2");
-							System.out.println("Introduce el cognom2");
-							cognom2.appendChild(document.createTextNode(teclado.nextLine()));
-							element1.appendChild(cognom2);
-
-							Element notaFinal = document.createElement("notaFinal");
-							System.out.println("Introduce la nota final");
-							notaFinal.appendChild(document.createTextNode(teclado.nextLine()));
-							element1.appendChild(notaFinal);
-
+							Element element2 = document.createElement("row");
+							System.out.println("Introdueix la id del nou element");
+							element2.setAttribute("id", String.valueOf(teclado.nextInt()));
 							contadorId++;
+							element1.appendChild(element2);
+
+							System.out.println("Introdueix cuants elements vols introduir sota del element:");
+							int numElements = teclado.nextInt();
+							
+							for (int i = 0; i < numElements; i++) {
+								System.out.println("Introdueix el nom del Element");
+								Element nom = document.createElement(teclado.next());
+								teclado.nextLine();
+								System.out.println("Introduce el contenido del elemento");
+								nom.appendChild(document.createTextNode(teclado.nextLine()));
+								element2.appendChild(nom);
+							}
 	
 						// Modificamos un elemento
 						} else if (seleccioEdicio == 2) {
 
-							System.out.println("Introdueix la ID del element que vols modificar");
+							try {
+								System.out.println("Introdueix la ID del element que vols modificar");
 
-							int seleccioId = teclado.nextInt();
-							teclado.nextLine();
+								int seleccioId = teclado.nextInt();
+								teclado.nextLine();
 
-							Element idElement = document.getElementById(String.valueOf(seleccioId));
+								Element idElement = document.getElementById(String.valueOf(seleccioId));
 
-							System.out.println(idElement.getNodeName() + " id: " + idElement.getAttribute("id"));
+								System.out.println(idElement.getNodeName() + " id: " + idElement.getAttribute("id"));
 
-							if (idElement.hasChildNodes()) {
+								if (idElement.hasChildNodes()) {
 
-								NodeList nl = idElement.getChildNodes();
+									NodeList nl = idElement.getChildNodes();
 
-								while (nl.getLength()!=0) {
-									Node n = nl.item(0);
-									idElement.removeChild(n);
+									while (nl.getLength()!=0) {
+										Node n = nl.item(0);
+										idElement.removeChild(n);
+									}
 								}
-
-								Element nom = document.createElement("nom");
-								System.out.println("Introduce el nombre");
-								nom.appendChild(document.createTextNode(teclado.nextLine()));
-								idElement.appendChild(nom);
-
-								Element cognom1 = document.createElement("cognom1");
-								System.out.println("Introduce el cognom1");
-								cognom1.appendChild(document.createTextNode(teclado.nextLine()));
-								idElement.appendChild(cognom1);
-
-								Element cognom2 = document.createElement("cognom2");
-								System.out.println("Introduce el cognom2");
-								cognom2.appendChild(document.createTextNode(teclado.nextLine()));
-								idElement.appendChild(cognom2);
-
-								Element notaFinal = document.createElement("notaFinal");
-								System.out.println("Introduce la nota final");
-								notaFinal.appendChild(document.createTextNode(teclado.nextLine()));
-								idElement.appendChild(notaFinal);
-
+								
+								System.out.println("Introdueix cuants elements vols introduir sota del element:");
+								int numElements = teclado.nextInt();
+								
+								for (int i = 0; i < numElements; i++) {
+									System.out.println("Introdueix el nom del Element");
+									Element nom = document.createElement(teclado.next());
+									teclado.nextLine();
+									System.out.println("Introduce el contenido del elemento");
+									nom.appendChild(document.createTextNode(teclado.nextLine()));
+									idElement.appendChild(nom);
+								}
+								
+							} catch (Exception e) {
+								
+								System.out.println("No s'ha trobat la ID");
 							}
 
 						// Eliminamos un elemento
 						} else if (seleccioEdicio == 3) {
 
-							System.out.println("Introdueix la ID del element que vols eliminar");
+							try {
+								System.out.println("Introdueix la ID del element que vols eliminar");
 
-							int seleccioId = teclado.nextInt();
+								int seleccioId = teclado.nextInt();
 
-							Element idElement = document.getElementById(String.valueOf(seleccioId));
+								Element idElement = document.getElementById(String.valueOf(seleccioId));
 
-							if (idElement.hasChildNodes()) {
+								if (idElement.hasChildNodes()) {
 
-								NodeList nl = idElement.getChildNodes();
+									NodeList nl = idElement.getChildNodes();
 
-								while (nl.getLength()!=0) {
-									Node n = nl.item(0);
-									idElement.removeChild(n);
+									while (nl.getLength()!=0) {
+										Node n = nl.item(0);
+										idElement.removeChild(n);
+									}
 								}
+
+								idElement.getParentNode().removeChild(idElement);
+								
+							} catch (Exception e) {
+								
+								System.out.println("No s'ha trobat la ID");
 							}
-
-							idElement.getParentNode().removeChild(idElement);
-
 						}
 
 					// Seleccionamos una de las tres posibles opciones para los atributos
@@ -275,41 +270,57 @@ public class UF1ACT5xml2 {
 						// Creamos un atributo a un elemento que no tenga
 						if (seleccioEdicio == 1) {
 
-							System.out.println("Introdueix la id del element al que vols crear l'atribut");
+							try {
+								System.out.println("Introdueix la id del element al que vols crear l'atribut");
 
-							int seleccioId = teclado.nextInt();
+								int seleccioId = teclado.nextInt();
+								
+								Element element = document.getElementById(String.valueOf(seleccioId));
+
+								System.out.println("Introdueix el nom del atribut:");
+								String nomAtribut = teclado.next();
+								System.out.println("Introdueix el valor del atribut");
+								String valorAtribut = teclado.next();
+								element.setAttribute(nomAtribut, valorAtribut);
+								
+							} catch (Exception e) {
+								
+								System.out.println("No s'ha trobat la ID");
+							}
 							
-							Element element = document.getElementById(String.valueOf(seleccioId));
-
-							System.out.println("Introdueix el nom del atribut:");
-							String nomAtribut = teclado.next();
-							System.out.println("Introdueix el valor del atribut");
-							String valorAtribut = teclado.next();
-							element.setAttribute(nomAtribut, valorAtribut);
-
 						// Modificamos un atributo id existente
 						} else if (seleccioEdicio == 2) {
 
-							System.out.println("Introdueix ID del element al que vols cambiar l'atribut");
+							try {
+								System.out.println("Introdueix ID del element al que vols cambiar l'atribut ID");
 
-							int seleccioId = teclado.nextInt();
+								int seleccioId = teclado.nextInt();
 
-							Element element = document.getElementById(String.valueOf(seleccioId));
+								Element element = document.getElementById(String.valueOf(seleccioId));
 
-							System.out.println("Introdueix la nova id");
-							element.setAttribute("id", String.valueOf(teclado.nextInt()));
+								System.out.println("Introdueix la nova id");
+								element.setAttribute("id", String.valueOf(teclado.nextInt()));
+								
+							} catch (Exception e) {
 
+								System.out.println("No s'ha trobat la ID");
+							}
+							
 						// Eliminamos atributo
 						} else if (seleccioEdicio == 3) {
 
-							System.out.println("Introdueix ID del element al que vols eliminar l'atribut");
+							try {
+								System.out.println("Introdueix ID del element al que vols eliminar l'atribut");
 
-							int seleccioId = teclado.nextInt();
+								int seleccioId = teclado.nextInt();
 
-							Element element = document.getElementById(String.valueOf(seleccioId));
+								Element element = document.getElementById(String.valueOf(seleccioId));
 
-							element.removeAttribute("id");
-
+								element.removeAttribute("id");
+							} catch (Exception e) {
+								
+								System.out.println("No s'ha trobat la ID");
+							}
 						}
 					}
 
@@ -327,18 +338,25 @@ public class UF1ACT5xml2 {
 				// Mostramos el elemento y sus hijos a partir de una id
 				} else if (seleccio == 3) {
 
-					System.out.println("Introdueix la ID:");
-					int seleccioId = teclado.nextInt();
-					Element idElement = document.getElementById(String.valueOf(seleccioId));
+					
+					try {
+						System.out.println("Introdueix la ID:");
+						int seleccioId = teclado.nextInt();
+						Element idElement = document.getElementById(String.valueOf(seleccioId));
 
-					System.out.println(idElement.getNodeName() + " id: " + idElement.getAttribute("id"));
+						System.out.println(idElement.getNodeName() + " id: " + idElement.getAttribute("id"));
 
-					if (idElement.hasChildNodes()) {
+						if (idElement.hasChildNodes()) {
 
-						Node node = idElement;
-						NodeList nl = node.getChildNodes();
-						recursiva(nl);
+							Node node = idElement;
+							NodeList nl = node.getChildNodes();
+							recursiva(nl);
+						}
+					} catch (Exception e) {
+						
+						System.out.println("No s'ha trobat la ID");
 					}
+					
 				}
 			}
 
